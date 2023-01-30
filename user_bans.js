@@ -10,7 +10,7 @@ function hoursToMiliseconds(hours) {
 	return hours * 3600000;
 }
 
-function registerBan(targetUser, banDuration, banReason, guildId) {
+function registerBan(targetUser, banDuration, banReason, guildId, timestamp) {
 	console.log('Registering ban for user: ', targetUser, ' with a duration of: ', banDuration, ' and reason: ', banReason);
 
 	if (bannedUsersStorage.getItem(targetUser)) { 
@@ -20,7 +20,7 @@ function registerBan(targetUser, banDuration, banReason, guildId) {
 	var banRecordObject = {
 		userId: targetUser.id,
 		guildId: guildId,
-		timestamp: Date.now(),
+		timestamp: timestamp,
 		duration: hoursToMiliseconds(banDuration),
 		reason: banReason,
 	};
@@ -84,11 +84,11 @@ async function refreshRecords(client) {
 			guild.members.unban(banRecord.userId);
 			unregisterBan(user);
 		} catch (error) {
-			console.log('There has been an error while unbanning user of id', banRecord.userId, ' from guild of id: ', banRecord.guildId, error);
+			console.log('There has been an error while unbanning user id', banRecord.userId, ' from guild id: ', banRecord.guildId, error);
 			continue;
 		}
 
-		console.log('Unbanned user of id: ', banRecord.userId, ' from guild of id: ', banRecord.guildId);
+		console.log('Unbanned user id: ', banRecord.userId, ' from guild id: ', banRecord.guildId);
 	}
 }
 

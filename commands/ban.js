@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const dayjs = require('dayjs');
 const config = require('../config.json');
 const user_bans = require('../user_bans.js');
 
@@ -44,22 +45,31 @@ async function execute(interaction) {
 	const guildMember = await interaction.guild.members.cache.get(targetUser.id);
 	const banDuration = interaction.options.getString('duration');
 	const banReason = interaction.options.getString('reason') ?? config.defaultBanReason;
+	const timestamp = Date.now();
 
 	console.log(targetUser, guildMember, banDuration, banReason);
-
+	console.log(guildMember);
 	if (!guildMember || targetUser.bot == true || targetUser.system == true) {
 		await interaction.reply({ content: config.messages.userNotBannable, ephemeral: true }); return;
 	}
 
 	try {
 		await guildMember.ban({ reason: banReason });
+		const guild = guildMember.guild;
+		const dayjsObject = dayjs(timestamp + banDuration);
+		
+		console.log(dayjsObject);
+
+		const dateOfUnbanning = dayjsObject.get("date");
+		console.log(dateOfUnbanning);
+		//targetUser.send('Hello, You have been banned on server: ' + guild.name + ' with a reason: ' + banReason + '. Don\'t worry! Your ban will expire on: ' + dateOfUnbanning);
 	} catch (error) {
 		console.log(error);
 		await interaction.reply({ content: config.messages.banError, ephemeral: true }); return;
 	}
 
 	// If the action was a success, register the ban
-	user_bans.registerBan(targetUser, banDuration, banReason, interaction.guild.id);
+	user_bans.registerBan(targetUser, banDuration, banReason, interaction.guild.id, timestamp);
 	await interaction.reply({ content: 'Banning user: ' + targetUser.username + ' for reason: ' + banReason, ephemeral: true });
 }
 
