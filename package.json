@@ -13,8 +13,8 @@
   "keywords": [
     "Discord",
     "Bot",
-    "Utility",
-    "Management"
+    "Management",
+    "Utility"
   ],
   "author": "DudusJestem",
   "license": "MIT",
@@ -22,7 +22,10 @@
     "url": "https://github.com/DudusJestem/FuzeCoreHubCompanion/issues"
   },
   "homepage": "https://github.com/DudusJestem/FuzeCoreHubCompanion#readme",
-  "devDependencies": {
-    "eslint": "^8.33.0"
+  "dependencies": {
+    "dayjs": "^1.11.7",
+    "discord.js": "^14.7.1",
+    "mysql": "^2.18.1",
+    "node-localstorage": "^2.2.1"
   }
 }

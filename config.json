@@ -1,0 +1,12 @@
+{
+	"bannedUsersStorageName": "banned_users",
+	"hourlyChecksInterval": 1000,
+	"defaultBanReason": "No reason provided",
+	"messages": {
+		"actionError": "There has been an error while performing this action!",
+		"userNotBannable": "This user can't be banned! (already banned/bot/system)",
+		"banError": "There has been an error while trying to ban this user!",
+		"unbanError": "There has been an error while trying to unban this user!",
+		"missingPermissions": "Missing permissions!"
+	}
+}
