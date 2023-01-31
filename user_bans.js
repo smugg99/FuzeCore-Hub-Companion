@@ -3,12 +3,10 @@ const dayjs = require('dayjs');
 const LocalStorage = require('node-localstorage').LocalStorage;
 const config = require('./config.json');
 
-const bannedUsersStoragePath = './' + config.bannedUsersStorageName;
+const bannedUsersStoragePath = './' + config.generics.bannedUsersStorageName;
 const bannedUsersStorage = new LocalStorage(bannedUsersStoragePath);
 
-function hoursToMiliseconds(hours) {
-	return hours * 3600000;
-}
+function hoursToMiliseconds(hours) { return hours * 3600000; }
 
 function registerBan(targetUser, banDuration, banReason, guildId, timestamp) {
 	console.log('Registering ban for user: ', targetUser, ' with a duration of: ', banDuration, ' and reason: ', banReason);
@@ -41,6 +39,10 @@ function unregisterBan(targetUser) {
 	bannedUsersStorage.removeItem(targetUser.id);
 
 	return true;
+}
+
+function getBanRecordFromUserId(userId) {
+	return bannedUsersStorage.getItem(userId);
 }
 
 function getBanRecords() {
@@ -92,4 +94,4 @@ async function refreshRecords(client) {
 	}
 }
 
-module.exports = { registerBan, unregisterBan, getBanRecords, refreshRecords };
+module.exports = { registerBan, unregisterBan, getBanRecords, getBanRecordFromUserId, refreshRecords };

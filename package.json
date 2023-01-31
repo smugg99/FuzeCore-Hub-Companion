@@ -25,7 +25,9 @@
   "dependencies": {
     "dayjs": "^1.11.7",
     "discord.js": "^14.7.1",
+    "mustache": "^4.2.0",
     "mysql": "^2.18.1",
+    "noblox.js": "^4.13.1",
     "node-localstorage": "^2.2.1"
   }
 }

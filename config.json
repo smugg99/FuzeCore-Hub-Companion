@@ -1,12 +1,38 @@
 {
-	"bannedUsersStorageName": "banned_users",
-	"hourlyChecksInterval": 1000,
-	"defaultBanReason": "No reason provided",
+	"generics": {
+		"bannedUsersStorageName": "banned_users",
+		"hourlyChecksInterval": 1000,
+		"defaultBanReason": "No reason provided"
+	},
+
 	"messages": {
+		"purgeError": "There has been an error while trying to purge messages in this channel!",
+		"purgeSuccess": "Successfully purged {{amount}} messages!",
 		"actionError": "There has been an error while performing this action!",
-		"userNotBannable": "This user can't be banned! (already banned/bot/system)",
+		"userNotBannable": "This user can't be banned! (already banned/bot/system/not a guild member?)",
+		"userNotUnbannable": "This user can't be unbanned! (not banned?)",
+		"banSuccess": "Successfully banned user {{name}} for {{duration}} hours with reason \"{{reason}}\"!",
 		"banError": "There has been an error while trying to ban this user!",
 		"unbanError": "There has been an error while trying to unban this user!",
-		"missingPermissions": "Missing permissions!"
+		"missingPermissions": "Missing permissions!",
+		"listEmpty": "This list is empty",
+		"listContainsAmount": "List contains {{amount}} elements"
+	},
+
+	"colors": {
+		"primary": "#e71e28",
+		"secondary": "#f4ca1b",
+		"darkPrimary": "#242424"
+	},
+
+	"specialCharacters": {
+		"banListPrefix": "⚈"
+	},
+
+	"imageUrls": {
+		"backgroundRed": "https://i.ibb.co/2PMt6cQ/Fuze-Core-Background.png",
+		"backgroundRedCropped": "https://i.ibb.co/QNf3B2N/Fuze-Core-Background-Cropped.png",
+		"backgroundYellow": "https://i.ibb.co/f2zZ3DG/Fuze-Core-Background-Yellow.png",
+		"backgroundYellowCropped": "https://i.ibb.co/GtW1Pqg/Fuze-Core-Background-Yellow-Cropped.png"
 	}
 }

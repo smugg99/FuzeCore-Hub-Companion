@@ -52,7 +52,7 @@ client.on(Events.ClientReady, async interaction => {
 	console.log("Client ready!");
 
 	// Check every some time if any banned player needs to be unbanned
-	setInterval(refreshRecords, config.hourlyChecksInterval, client);
+	setInterval(refreshRecords, config.generics.hourlyChecksInterval, client);
 });
 
 client.login(botToken);

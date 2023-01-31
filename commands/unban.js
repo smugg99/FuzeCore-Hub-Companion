@@ -1,5 +1,6 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, GuildBan } = require('discord.js');
 const user_bans = require('../user_bans.js');
+const config = require('../config.json');
 
 const command = new SlashCommandBuilder()
 	.setName('unban')
@@ -15,6 +16,13 @@ const command = new SlashCommandBuilder()
 
 async function execute(interaction) {
 	const targetUser = interaction.options.getUser('user');
+
+	const banList = await interaction.guild.bans.fetch();
+
+	// Check if the user is banned
+	if (targetUser.bot == true || targetUser.system == true || !banList.find(guildBan => guildBan.user.id === targetUser.id)) {
+		await interaction.reply({ content: config.messages.userNotUnbannable, ephemeral: true }); return false;
+	}
 
 	try {
 		interaction.guild.members.unban(targetUser);
