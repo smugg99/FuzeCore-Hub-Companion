@@ -3,15 +3,15 @@ const dayjs = require('dayjs');
 const LocalStorage = require('node-localstorage').LocalStorage;
 const config = require('./config.json');
 
-const bannedUsersStoragePath = './' + config.generics.bannedUsersStorageName;
-const bannedUsersStorage = new LocalStorage(bannedUsersStoragePath);
+const banRecordsStoragePath = './' + config.generics.banRecordsStorageName;
+const banRecordsStorage = new LocalStorage(banRecordsStoragePath);
 
 function hoursToMiliseconds(hours) { return hours * 3600000; }
 
 function registerBan(targetUser, banDuration, banReason, guildId, timestamp) {
 	console.log('Registering ban for user: ', targetUser, ' with a duration of: ', banDuration, ' and reason: ', banReason);
 
-	if (bannedUsersStorage.getItem(targetUser)) { 
+	if (banRecordsStorage.getItem(targetUser)) { 
 		console.log('User: ', targetUser, ' already has a ban record!'); return false;
 	}
 
@@ -24,7 +24,7 @@ function registerBan(targetUser, banDuration, banReason, guildId, timestamp) {
 	};
 
 	var encodedJson = JSON.stringify(banRecordObject);
-	bannedUsersStorage.setItem(targetUser.id, encodedJson);
+	banRecordsStorage.setItem(targetUser.id, encodedJson);
 
 	return true;
 }
@@ -32,25 +32,25 @@ function registerBan(targetUser, banDuration, banReason, guildId, timestamp) {
 function unregisterBan(targetUser) {
 	console.log('Unregistering ban for user: ', targetUser);
 
-	if (!bannedUsersStorage.getItem(targetUser)) { 
+	if (!banRecordsStorage.getItem(targetUser)) { 
 		console.log('User: ', targetUser, ' doesn\' have a registered ban!'); return false;
 	}
 
-	bannedUsersStorage.removeItem(targetUser.id);
+	banRecordsStorage.removeItem(targetUser.id);
 
 	return true;
 }
 
 function getBanRecordFromUserId(userId) {
-	return bannedUsersStorage.getItem(userId);
+	return banRecordsStorage.getItem(userId);
 }
 
 function getBanRecords() {
 	var banRecords = [];
-	const bannedUsersRecords = fs.readdirSync(bannedUsersStoragePath);
-
+	const bannedUsersRecords = fs.readdirSync(banRecordsStoragePath);
+ 
 	for (const userId of bannedUsersRecords) {
-		const banRecord = bannedUsersStorage.getItem(userId);
+		const banRecord = banRecordsStorage.getItem(userId);
 		if (!banRecord) { console.log('Invalid ban record for file: ', userId); continue; }
 		
 		var shouldBeUnbannedYet = false;

@@ -17,20 +17,20 @@ const command = new SlashCommandBuilder()
 			.setName("duration")
 			.setDescription("Duration of the ban")
 			.addChoices(
-				{ name: 'Permament', value: '-1' },
-				{ name: '~15 Seconds', value: '0.005' },
-				{ name: '1 Hour', value: '1' },
-				{ name: '6 Hours', value: '6' },
-				{ name: '12 Hours', value: '12' },
-				{ name: '1 Day', value: '24' },
-				{ name: '2 Days', value: '48' },
-				{ name: '4 Days', value: '72' },
-				{ name: '7 Days', value: '96' },
-				{ name: '12 Days', value: '288' },
-				{ name: '1 Month', value: '720' },
-				{ name: '2 Months', value: '1440' },
-				{ name: '6 Months', value: '4320' },
-				{ name: '1 Year', value: '8640' },
+				{ name: 'permament', value: '-1' },
+				{ name: '~15 seconds', value: '0.005' },
+				{ name: '1 hour', value: '1' },
+				{ name: '6 hours', value: '6' },
+				{ name: '12 hours', value: '12' },
+				{ name: '1 day', value: '24' },
+				{ name: '2 days', value: '48' },
+				{ name: '4 days', value: '72' },
+				{ name: '7 days', value: '96' },
+				{ name: '12 days', value: '288' },
+				{ name: '1 month', value: '720' },
+				{ name: '2 months', value: '1440' },
+				{ name: '6 months', value: '4320' },
+				{ name: '1 year', value: '8640' },
 			)
 			.setRequired(true))
 	.addStringOption(option =>

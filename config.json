@@ -1,6 +1,8 @@
 {
 	"generics": {
-		"bannedUsersStorageName": "banned_users",
+		"banRecordsStorageName": "ban_records_storage",
+		"usersStorageName": "users_storage",
+		"guildsStorageName": "guilds_storage",
 		"hourlyChecksInterval": 1000,
 		"defaultBanReason": "No reason provided"
 	},

@@ -19,7 +19,6 @@ async function execute(interaction) {
 
 	const banList = await interaction.guild.bans.fetch();
 
-	// Check if the user is banned
 	if (targetUser.bot == true || targetUser.system == true || !banList.find(guildBan => guildBan.user.id === targetUser.id)) {
 		await interaction.reply({ content: config.messages.userNotUnbannable, ephemeral: true }); return false;
 	}
