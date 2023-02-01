@@ -1,13 +1,18 @@
 {
 	"generics": {
-		"banRecordsStorageName": "ban_records_storage",
-		"usersStorageName": "users_storage",
-		"guildsStorageName": "guilds_storage",
+		"storagesPath": "./storages/",
+		"banRecordsStorageName": "ban_records",
+		"usersStorageName": "users",
+		"guildsStorageName": "guilds",
 		"hourlyChecksInterval": 1000,
 		"defaultBanReason": "No reason provided"
 	},
 
 	"messages": {
+		"channelUnbindable": "This channel can't be bound to!",
+		"channelBindingError": "There has been an error while trying to bind this channel!",
+		"channelBindSuccess": "Successfully bound channel {{channel}} as \"{{feature}}\"!",
+		"userBanned": "User {{name}} has been banned!",
 		"purgeError": "There has been an error while trying to purge messages in this channel!",
 		"purgeSuccess": "Successfully purged {{amount}} messages!",
 		"actionError": "There has been an error while performing this action!",

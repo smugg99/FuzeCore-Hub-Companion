@@ -16,6 +16,7 @@ const command = new SlashCommandBuilder()
 		option
 			.setName("duration")
 			.setDescription("Duration of the ban")
+			.setRequired(true)
 			.addChoices(
 				{ name: 'permament', value: '-1' },
 				{ name: '~15 seconds', value: '0.005' },
@@ -31,8 +32,7 @@ const command = new SlashCommandBuilder()
 				{ name: '2 months', value: '1440' },
 				{ name: '6 months', value: '4320' },
 				{ name: '1 year', value: '8640' },
-			)
-			.setRequired(true))
+			))
 	.addStringOption(option =>
 		option
 			.setName("reason")

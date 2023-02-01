@@ -3,7 +3,7 @@ const { Client, Collection, Events } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const { refreshRecords } = require('./user_bans.js');
+const user_bans = require('./user_bans.js');
 const { botToken, clientId } = require('./bot-credentials.json');
 const config = require('./config.json');
 
@@ -27,7 +27,7 @@ for (const file of commandFiles) {
 	if ('data' in command && 'execute' in command) {
 		client.commands.set(command.data.name, command);
 	} else {
-		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property`);
 	}
 }
 
@@ -37,7 +37,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	const command = interaction.client.commands.get(interaction.commandName);
 
 	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`); return;
+		console.error(`No command matching ${interaction.commandName} was found`); return;
 	}
 
 	try {
@@ -48,11 +48,20 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
+client.on(Events.GuildBanAdd, async guildBan => {
+	console.log('Ban added!');
+	user_bans.buildEmbedForGuildBan(guildBan);
+});
+
+client.on(Events.GuildBanRemove, async guildBan => {
+	console.log('Ban removed!');
+});
+
 client.on(Events.ClientReady, async interaction => {
-	console.log("Client ready!");
+	console.log('Client ready!');
 
 	// Check every some time if any banned player needs to be unbanned
-	setInterval(refreshRecords, config.generics.hourlyChecksInterval, client);
+	setInterval(user_bans.refreshRecords, config.generics.hourlyChecksInterval, client);
 });
 
 client.login(botToken);

@@ -2,11 +2,53 @@ const fs = require('fs');
 const dayjs = require('dayjs');
 const LocalStorage = require('node-localstorage').LocalStorage;
 const config = require('./config.json');
+const { EmbedBuilder } = require('@discordjs/builders');
 
-const banRecordsStoragePath = './' + config.generics.banRecordsStorageName;
+const banRecordsStoragePath = config.generics.storagesPath + config.generics.banRecordsStorageName;
 const banRecordsStorage = new LocalStorage(banRecordsStoragePath);
 
 function hoursToMiliseconds(hours) { return hours * 3600000; }
+
+function newBanRecordObject(targetUser, banDuration, banReason, guildId, timestamp) {
+	return {
+		userId: targetUser.id,
+		guildId: guildId,
+		timestamp: timestamp,
+		duration: hoursToMiliseconds(banDuration),
+		reason: banReason,
+	};
+}
+
+function buildEmbedForGuildBan(guildBan) {
+	console.log(guildBan);
+	var thumbnailUrl = guildBan.user.displayAvatarUrl();
+
+	const wholeUsername = guildBan.user.username + '#' + guildBan.user.discriminator;
+	const wholeReason = 'Reason: ' + guildBan.reason;
+	const wholeUserId = 'User Id: ' + guildBan.user.id;
+	var banEndsOnTimestamp = '(no ban record found)';
+		
+	const banRecord = getBanRecordFromUserId(guildBan.user.id);
+	if (banRecord) {
+		const banRecordObject = JSON.parse(banRecord);
+		if (banRecordObject.timestamp && banRecordObject.duration) {
+			const banEndTimestamp = banRecordObject.timestamp + banRecordObject.duration;
+
+			const timestamp = dayjs(banEndTimestamp).utc().format('DD/MM/YYYY HH:mm');
+			banEndsOnTimestamp = 'Ends on: ' + timestamp + ' UTC';
+		}
+	}
+
+	var description = wholeUserId + '\n' + wholeReason + '\n' + banEndTimestamp;
+
+	const banEmbed = new EmbedBuilder()
+		.setTitle(Mustache.render(config.messages.userBanned, { name: wholeUsername }))
+		.setColor(config.colors.primary)
+		.setThumbnail(thumbnailUrl)
+		.setDescription(description);
+	
+	return banEmbed;
+}
 
 function registerBan(targetUser, banDuration, banReason, guildId, timestamp) {
 	console.log('Registering ban for user: ', targetUser, ' with a duration of: ', banDuration, ' and reason: ', banReason);
@@ -15,14 +57,7 @@ function registerBan(targetUser, banDuration, banReason, guildId, timestamp) {
 		console.log('User: ', targetUser, ' already has a ban record!'); return false;
 	}
 
-	var banRecordObject = {
-		userId: targetUser.id,
-		guildId: guildId,
-		timestamp: timestamp,
-		duration: hoursToMiliseconds(banDuration),
-		reason: banReason,
-	};
-
+	var banRecordObject = newBanRecordObject(targetUser, banDuration, banReason, guildId, timestamp);
 	var encodedJson = JSON.stringify(banRecordObject);
 	banRecordsStorage.setItem(targetUser.id, encodedJson);
 
@@ -94,4 +129,4 @@ async function refreshRecords(client) {
 	}
 }
 
-module.exports = { registerBan, unregisterBan, getBanRecords, getBanRecordFromUserId, refreshRecords };
+module.exports = { registerBan, unregisterBan, getBanRecords, getBanRecordFromUserId, refreshRecords, buildEmbedForGuildBan };

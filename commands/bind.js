@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, GuildBan, ChannelType } = require('discord.js');
+const channel_binds = require('../channel_binds.js');
 const config = require('../config.json');
 
 const command = new SlashCommandBuilder()
@@ -13,13 +14,12 @@ const command = new SlashCommandBuilder()
 		option
 			.setName('feature')
 			.setDescription('Bot\'s feature')
+			.setRequired(true)
 			.addChoices(
-				{ name: 'Show total members amount', value: '1' },
-				{ name: 'Show online members amount', value: '2' },
-				{ name: 'Show offline members amount', value: '3' },
-				{ name: 'Set general', value: '4' },
-				{ name: 'Set commands', value: '5' },
-				{ name: 'Set announcements', value: '6' }
+				{ name: 'Set general', value: 'general' },
+				{ name: 'Set commands', value: 'commands' },
+				{ name: 'Set announcements', value: 'announcements' },
+				{ name: 'Set bans', value: 'bans' },
 			))
 	.setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
 	.setDMPermission(false);
@@ -27,9 +27,24 @@ const command = new SlashCommandBuilder()
 
 async function execute(interaction) {
 	const channel = interaction.options.getChannel('channel');
-	console.log(channel);
+	const feature = interaction.options.getString('feature');
+	console.log(channel, feature);
 
-	await interaction.reply({ content: 'Test' , ephemeral: true });
+	if (!channel.isTextBased()) {
+		await interaction.reply({ content: config.messages.channelUnbindable , ephemeral: true }); return;
+	}
+
+	try {
+		var success = channel_binds.bindChannel(channel, feature);
+		if (!success) {
+			await interaction.reply({ content: config.messages.channelBindingError, ephemeral: true }); return;
+		}
+	} catch (error) {
+		console.log(error);
+		await interaction.reply({ content: config.messages.channelBindingError, ephemeral: true }); return;
+	}
+
+	await interaction.reply({ content: config.messages.chann , ephemeral: true });
 }
 
 module.exports = { data: command, execute }
