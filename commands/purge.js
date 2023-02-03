@@ -15,21 +15,18 @@ const command = new SlashCommandBuilder()
 
 async function execute(interaction) {
 	const _amount = interaction.options.getInteger('amount');
-	const amount = _amount < 100 ? _amount : 99
 
-	var amountPurged = 0;
+	var amount = _amount < 100 ? (_amount <= 0 ? 1 : _amount) : 99;
+	var deletedMessages;
 
 	try {
-		var fetchedMessages = await interaction.channel.messages.fetch({ limit: amount, cached: false });
-
-		const fetchedMessagesArray = Array.from(fetchedMessages.values());
-		fetchedMessagesArray.forEach(message => { amountPurged += 1; message.delete(); });
+		deletedMessages = await interaction.channel.bulkDelete(amount);
 	} catch (error) {
 		console.log(error);
 		await interaction.reply({ content: config.messages.purgeError, ephemeral: true }); return;
 	}
 
-	await interaction.reply({ content: Mustache.render(config.messages.purgeSuccess, { amount: amountPurged }), ephemeral: true });
+	await interaction.reply({ content: Mustache.render(config.messages.purgeSuccess, { amount: deletedMessages.size }), ephemeral: true });
 }
 
 module.exports = { data: command, execute }

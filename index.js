@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const user_bans = require('./user_bans.js');
+const spam_filter = require('./spam_filter.js');
 const { botToken, clientId } = require('./bot-credentials.json');
 const config = require('./config.json');
 
@@ -46,6 +47,11 @@ client.on(Events.InteractionCreate, async interaction => {
 		console.error(error);
 		await interaction.reply({ content: config.messages.actionError, ephemeral: true });
 	}
+});
+
+client.on(Events.MessageCreate, async message => {
+	console.log('New message!');
+	spam_filter.filterMessage(message);
 });
 
 client.on(Events.GuildBanAdd, async guildBan => {

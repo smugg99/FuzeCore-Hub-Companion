@@ -46,4 +46,4 @@ function bindChannel(channel, feature) {
 	return true;
 }
 
-module.exports = { checkForGuildStorage, bindChannel }
+module.exports = { checkForGuildStorage, bindChannel };
