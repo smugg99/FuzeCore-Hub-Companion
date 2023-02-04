@@ -8,6 +8,10 @@
 		"defaultBanReason": "No reason provided"
 	},
 
+	"spamFilter": {
+		"maxAmountOfProhibitedThings": 5
+	},
+
 	"messages": {
 		"channelUnbindable": "This channel can't be bound to!",
 		"channelBindingError": "There has been an error while trying to bind this channel!",

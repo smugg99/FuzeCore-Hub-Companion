@@ -66,7 +66,7 @@ async function execute(interaction) {
 
 	// This is used to format variables into the json string
 	const replyContent = Mustache.render(config.messages.banSuccess, {
-		name: targetUser.username + '#' + targetUser.discriminator,
+		name: targetUser.tag,
 		duration: banDuration,
 		reason: banReason,
 	});

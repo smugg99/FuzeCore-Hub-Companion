@@ -24,7 +24,7 @@ async function execute(interaction) {
 	var description = '';
 
 	banListArray.forEach((guildBan) => {
-		const wholeUsername = guildBan.user.username + '#' + guildBan.user.discriminator;
+		const wholeUsername = guildBan.user.tag;
 		const wholeReason = 'Reason: ' + guildBan.reason;
 		const wholeUserId = 'User Id: ' + guildBan.user.id;
 		var banEndsOnTimestamp = '(no ban record found)';
