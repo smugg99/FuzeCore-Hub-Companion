@@ -19,14 +19,15 @@
 			"specialCharacters": 10
 		},
 		"limitsPerWord": {
-			"links": 0.25,
-			"mentions": 0.5,
-			"specialCharacters": 0.7
+			"links": 0.1,
+			"mentions": 0.2,
+			"specialCharacters": 1.1
 		},
-		"maxSimilarityScore": 0.8,
-		"minTimeBetweenMessages": 3000,
-		"minMessageLengthForFileUpload": 1500,
-		"defaultTimeoutDuration": 2000,
+		"cooldownDurationPerWord": 100,
+		"maxSimilarityScore": 0.7,
+		"minTimeBetweenMessages": 1500,
+		"minMessageLengthForFileUpload": 2000,
+		"defaultTimeoutDuration": 4000,
 		"reasons": {
 			"tooMuchProhibitedThings": "Your message contains too much things like mentions, links or special characters!",
 			"tooHighSimilarityScore": "Your message is too similar to your previous one!",

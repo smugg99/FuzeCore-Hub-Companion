@@ -175,28 +175,29 @@ async function filterMessage(message) {
 	const guildMember = await message.guild.members.cache.get(message.author.id);
 	if (!guildMember || check_permissions(guildMember, PermissionFlagsBits.KickMembers)) { return [false, guildMember]; }
 
+	const [duplicateWords, wordsAmount] = countDuplicateWords(message.content);
+	console.log('Duplicate words: ', duplicateWords, wordsAmount);
 	console.log('\n');
+
 	const previousMessage = await getRoughlyPreviousMessage(message);
 	if (previousMessage) {
 		console.log('Previous message: ', previousMessage.content, '\n');
 
 		const similarityScore = getSimilarityScore(message.content, previousMessage.content);
 		const timeDifference = getTimeDifferenceFromMessages(message, previousMessage);
+		const minTimeBetweenMessages = config.spamFilter.minTimeBetweenMessages + (wordsAmount * config.spamFilter.cooldownDurationPerWord);
 
 		console.log('Similarity score: ', similarityScore);
 		console.log('Time difference: ', timeDifference);
-
-		if (similarityScore >= config.spamFilter.maxSimilarityScore) { return [true, guildMember, tagReasons.tooHighSimilarityScore]; }
-		if (timeDifference <= config.spamFilter.minTimeBetweenMessages) { return [true, guildMember, tagReasons.messagedTooOften]; }
-	}
+		console.log('Min time difference: ', minTimeBetweenMessages);
 	
-	const [duplicateWords, wordsAmount] = countDuplicateWords(message.content);
-	console.log('Duplicate words: ', duplicateWords, wordsAmount);
-	console.log('\n');
+		if (similarityScore >= config.spamFilter.maxSimilarityScore) { return [true, guildMember, tagReasons.tooHighSimilarityScore]; }
+		if (timeDifference <= minTimeBetweenMessages) { return [true, guildMember, tagReasons.messagedTooOften]; }
+	}
 
 	const amountsOfProhibitedThings = getAmountsOfProhibitedThings(message);
 	const maxAmountsOfProhibitedThings = calculateMaxAmountsOfProhibitedThings(wordsAmount);
-	console.log('Amounts of prohibited things: ', amountsOfProhibitedThings);
+	console.log('\nAmounts of prohibited things: ', amountsOfProhibitedThings);
 	console.log('Max amounts of prohibited things: ', maxAmountsOfProhibitedThings);
 	
 	if (
