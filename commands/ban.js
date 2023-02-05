@@ -50,6 +50,7 @@ async function execute(interaction) {
 
 	console.log(targetUser, guildMember, banDuration, banReason);
 	console.log(guildMember);
+	
 	if (!guildMember || targetUser.bot == true || targetUser.system == true) {
 		await interaction.reply({ content: config.messages.userNotBannable, ephemeral: true }); return;
 	}
@@ -70,6 +71,7 @@ async function execute(interaction) {
 		duration: banDuration,
 		reason: banReason,
 	});
+	
 	console.log(replyContent);
 	await interaction.reply({ content: replyContent, ephemeral: true });
 }

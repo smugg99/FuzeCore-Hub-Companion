@@ -1,31 +1,60 @@
 {
 	"generics": {
 		"storagesPath": "./storages/",
+		"imagesPath": "./images/",
 		"banRecordsStorageName": "ban_records",
 		"usersStorageName": "users",
 		"guildsStorageName": "guilds",
-		"hourlyChecksInterval": 1000,
-		"defaultBanReason": "No reason provided"
+		"banRecordsCheckInterval": 3600000,
+		"defaultBanReason": "No reason provided",
+		"defaultSpamWarnReason": "Spamming"
 	},
 
 	"spamFilter": {
-		"maxAmountOfProhibitedThings": 5
+		"taggedMessageFileName": "tagged_message.txt",
+		"warningFooter": "If You believe this has been a mistake let our staff know",
+		"minLimits": {
+			"links": 1,
+			"mentions": 2,
+			"specialCharacters": 10
+		},
+		"limitsPerWord": {
+			"links": 0.25,
+			"mentions": 0.5,
+			"specialCharacters": 0.7
+		},
+		"maxSimilarityScore": 0.8,
+		"minTimeBetweenMessages": 3000,
+		"minMessageLengthForFileUpload": 1500,
+		"defaultTimeoutDuration": 2000,
+		"reasons": {
+			"tooMuchProhibitedThings": "Your message contains too much things like mentions, links or special characters!",
+			"tooHighSimilarityScore": "Your message is too similar to your previous one!",
+			"tooMuchRepetitiveness": "Your message is too repetetive!",
+			"messagedTooOften": "You are sending messages too often!"
+		}
 	},
 
 	"messages": {
 		"channelUnbindable": "This channel can't be bound to!",
 		"channelBindingError": "There has been an error while trying to bind this channel!",
 		"channelBindSuccess": "Successfully bound channel {{channel}} as \"{{feature}}\"!",
+
+		"userSpamWarned": "Your message has been tagged as spam and deleted!",
 		"userBanned": "User {{name}} has been banned!",
-		"purgeError": "There has been an error while trying to purge messages in this channel!",
-		"purgeSuccess": "Successfully purged {{amount}} messages!",
-		"actionError": "There has been an error while performing this action!",
 		"userNotBannable": "This user can't be banned! (already banned/bot/system/not a guild member?)",
 		"userNotUnbannable": "This user can't be unbanned! (not banned?)",
+
+		"purgeError": "There has been an error while trying to purge messages in this channel!",
+		"purgeSuccess": "Successfully purged {{amount}} messages!",
+
+		"actionError": "There has been an error while performing this action!",
+		"missingPermissions": "Missing permissions!",
+		
 		"banSuccess": "Successfully banned user {{name}} for {{duration}} hours with reason \"{{reason}}\"!",
 		"banError": "There has been an error while trying to ban this user!",
 		"unbanError": "There has been an error while trying to unban this user!",
-		"missingPermissions": "Missing permissions!",
+
 		"listEmpty": "This list is empty",
 		"listContainsAmount": "List contains {{amount}} elements"
 	},
@@ -40,7 +69,8 @@
 		"banListPrefix": "⚈"
 	},
 
-	"imageUrls": {
+	"images": {
+		"warningIcon": "./images/warning_icon.png",
 		"backgroundRed": "https://i.ibb.co/2PMt6cQ/Fuze-Core-Background.png",
 		"backgroundRedCropped": "https://i.ibb.co/QNf3B2N/Fuze-Core-Background-Cropped.png",
 		"backgroundYellow": "https://i.ibb.co/f2zZ3DG/Fuze-Core-Background-Yellow.png",

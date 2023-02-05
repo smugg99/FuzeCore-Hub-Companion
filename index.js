@@ -50,8 +50,20 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 client.on(Events.MessageCreate, async message => {
-	console.log('New message!');
-	spam_filter.filterMessage(message);
+	// console.log('New message!');
+
+	if (spam_filter.isMessageValid(message)) {
+		// console.log('New message is valid text channel message!');
+
+		spam_filter.filterMessage(message).then(([taggedAsSpam, guildMember, reason]) => {
+			console.log(taggedAsSpam, guildMember.user.tag, reason);
+			if (!taggedAsSpam || !guildMember) { return; }
+			
+			spam_filter.takeActions(message, guildMember, reason).catch(
+				error => console.log(error)
+			);
+		}).catch(error => console.log(error));
+	}
 });
 
 client.on(Events.GuildBanAdd, async guildBan => {
@@ -67,7 +79,7 @@ client.on(Events.ClientReady, async interaction => {
 	console.log('Client ready!');
 
 	// Check every some time if any banned player needs to be unbanned
-	setInterval(user_bans.refreshRecords, config.generics.hourlyChecksInterval, client);
+	setInterval(user_bans.refreshRecords, config.generics.banRecordsCheckInterval, client);
 });
 
 client.login(botToken);
